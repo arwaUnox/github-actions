@@ -1,3 +1,4 @@
+name: Schedule trigger
 on:
   schedule:
     - cron: '*/5 * * * *'
