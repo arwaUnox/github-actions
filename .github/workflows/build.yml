@@ -41,4 +41,4 @@ jobs:
         run: pip install semgrep
 
       - name: Run Semgrep
-        run: semgrep --config auto
+        run: semgrep --config --verpose auto
