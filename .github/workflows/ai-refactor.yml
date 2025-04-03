@@ -1,7 +1,7 @@
 name: AI Refactor Bot
 
 on:
-  pull_request:
+  push:
     paths:
       - "src/**/*.js"
 
