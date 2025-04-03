@@ -4,8 +4,13 @@ on:
   push:
     branches:
       - main
-
+  
+permissions:
+  contents: read
+  security-events: write
 jobs:
+
+
   qlty-check:
     runs-on: ubuntu-latest
     steps:
