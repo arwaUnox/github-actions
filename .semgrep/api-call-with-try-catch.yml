@@ -1,0 +1,12 @@
+rules:
+  - id: js.api-post-without-try
+    languages: [javascript]
+    message: "Wrap api.post(...) in a try/catch block for error handling."
+    severity: WARNING
+    pattern: api.post(...)
+    pattern-not: |
+      try {
+        api.post(...);
+      } catch (...) {
+        ...
+      }

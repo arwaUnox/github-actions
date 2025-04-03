@@ -29,14 +29,14 @@ const SignInForm = () => {
   } = useForm({ resolver: zodResolver(singInFormSchema) });
 
   const onSubmit = async (data) => {
-    try {
+    // try {
       const response = await api.post('/api/signin', data);
       setToken(response.data.accessToken);
-    } catch (e) {
-      setError('root', {
-        message: e.response.data.message,
-      });
-    }
+    // } catch (e) {
+    //   setError('root', {
+    //     message: e.response.data.message,
+    //   });
+    // }
   };
   return (
     <Card className='mx-auto w-[500px]'>

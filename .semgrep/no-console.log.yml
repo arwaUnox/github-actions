@@ -1,0 +1,6 @@
+rules:
+  - id: js.no-console-log
+    languages: [javascript]
+    pattern: console.log(...)
+    message: "Remove console.log before committing code."
+    severity: WARNING

@@ -1,0 +1,6 @@
+rules:
+  - id: js.no-localStorage
+    languages: [javascript]
+    pattern: localStorage.$METHOD(...)
+    message: "Avoid direct use of localStorage — use a secure wrapper instead."
+    severity: INFO
