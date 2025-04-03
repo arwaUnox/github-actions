@@ -16,7 +16,7 @@ jobs:
       - name: Install Qlty
         run: |
           curl -sSL https://qlty.sh | bash -
-          sudo mv ./qlty /usr/local/bin/qlty
+          echo "$HOME/.qlty/bin" >> $GITHUB_PATH
 
       - name: Run Qlty Check
         run: |
