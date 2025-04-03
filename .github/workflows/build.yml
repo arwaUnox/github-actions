@@ -2,8 +2,7 @@ name: AI Refactor Bot
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -14,18 +13,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: 📦 Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Python
+      - name: 🐍 Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
-      - name: Install dependencies
+      - name: 📥 Install dependencies
         run: pip install openai
 
-      - name: Run AI Refactor
-        run: python refactor.py src/badFile.js
+      - name: 🤖 Run AI Refactor (all JS files in /src)
+        run: python refactor.py
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      - name: 📤 Upload refactored suggestions
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-refactor-suggestions
+          path: refactor-output/
