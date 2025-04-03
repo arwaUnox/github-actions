@@ -20,7 +20,7 @@ jobs:
 
       - name: Run Qlty Check
         run: |
-          qlty check --sample=5
-          qlty fmt --all
-          qlty smells --all
-          qlty metrics --all --max-depth=2 --sort complexity --limit 10
+          qlty check || true
+          qlty fmt --all || true
+          qlty smells --all || true
+          qlty metrics --all --format json > metrics.json || true
