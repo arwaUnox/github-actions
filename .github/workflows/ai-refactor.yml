@@ -1,0 +1,34 @@
+name: AI Refactor Bot
+
+on:
+  pull_request:
+    paths:
+      - "src/**/*.js"
+
+jobs:
+  ai-refactor:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+
+      - name: Install dependencies
+        run: pip install openai
+
+      - name: Run AI Refactor
+        run: |
+          python refactor.py src/someFile.js > refactored.md
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      - name: Upload refactored suggestions
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-refactor-suggestions
+          path: refactored.md
