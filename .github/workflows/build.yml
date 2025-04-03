@@ -27,13 +27,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+      - name: Download Qlty Binary
+        run: |
+          curl -L https://github.com/qltysh/qlty/releases/latest/download/qlty-x86_64-unknown-linux-musl.tar.gz -o qlty.tar.gz
+          tar -xzf qlty.tar.gz
+          chmod +x qlty
+          sudo mv qlty /usr/local/bin/
 
-      - name: Install Qlty CLI from GitHub
-        run: npm install -g github:qltysh/qlty
-
-      - name: Run Qlty Analysis
+      - name: Run Qlty
         run: qlty run
