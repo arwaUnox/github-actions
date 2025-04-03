@@ -41,7 +41,7 @@ jobs:
         run: pip install semgrep
 
       - name: Run Semgrep and save report
-        run: semgrep --config auto --json > semgrep-report.json
+        run: semgrep --config auto --exclude semgrep-report.json --json > semgrep-report.json
 
       - name: Upload Semgrep report artifact
         uses: actions/upload-artifact@v4
