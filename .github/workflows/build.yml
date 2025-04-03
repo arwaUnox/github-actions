@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for better analysis
+          fetch-depth: 0
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
         env:
@@ -32,8 +32,8 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install Qlty CLI
-        run: npm install -g @qlty/cli
+      - name: Install Qlty CLI from GitHub
+        run: npm install -g github:qltysh/qlty
 
-      - name: Run Qlty
-        run: qlty run --output-format github
+      - name: Run Qlty Analysis
+        run: qlty run
