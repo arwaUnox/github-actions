@@ -1,36 +1,26 @@
-name: Build
+name: Qlty Code Quality Checks
 
 on:
-  push:
+  pull_request:
     branches:
       - main
-  pull_request:
-    types: [opened, synchronize, reopened]
 
 jobs:
-  sonarqube:
-    name: SonarQube
+  qlty-check:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # Fetch all history for a full clone
 
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v5
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Install Qlty
+        run: |
+          curl -sSL https://qlty.sh | bash -
+          sudo mv ./qlty /usr/local/bin/qlty
 
-  qlty:
-    name: Qlty Code Quality
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Run Qlty Analysis
-        uses: qltysh/qlty-action@main
-        with:
-          token: ${{ secrets.QLTY_TOKEN }}
-          args: 'run --output-format github'
+      - name: Run Qlty Check
+        run: |
+          qlty check --sample=5
+          qlty fmt --all
+          qlty smells --all
+          qlty metrics --all --max-depth=2 --sort complexity --limit 10
