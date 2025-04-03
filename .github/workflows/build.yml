@@ -12,16 +12,18 @@ jobs:
     name: SonarQube
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   qlty:
-    name: Qlty
+    name: Qlty Code Quality
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -29,7 +31,7 @@ jobs:
 
       - name: Download Qlty Binary
         run: |
-          curl -L https://github.com/qltysh/qlty/releases/latest/download/qlty-x86_64-unknown-linux-musl.tar.gz -o qlty.tar.gz
+          curl -L https://github.com/qltysh/qlty/releases/download/v0.1.0/qlty-x86_64-unknown-linux-musl.tar.gz -o qlty.tar.gz
           tar -xzf qlty.tar.gz
           chmod +x qlty
           sudo mv qlty /usr/local/bin/
