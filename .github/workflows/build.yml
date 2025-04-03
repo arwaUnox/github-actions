@@ -23,4 +23,4 @@ jobs:
           qlty check || true
           qlty fmt --all || true
           qlty smells --all || true
-          qlty metrics --all --format json > metrics.json || true
+          qlty metrics --all --sort json > metrics.json || true
