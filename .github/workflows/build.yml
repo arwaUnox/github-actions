@@ -2,11 +2,15 @@ name: AI Refactor Bot
 
 on:
   push:
-    paths:
-      - "src/**/*.js"
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
-  ai-refactor:
+  refactor:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,19 +20,12 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.x
+          python-version: '3.x'
 
       - name: Install dependencies
         run: pip install openai
 
       - name: Run AI Refactor
-        run: |
-          python refactor.py src/someFile.js > refactored.md
+        run: python refactor.py src/badFile.js
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-
-      - name: Upload refactored suggestions
-        uses: actions/upload-artifact@v4
-        with:
-          name: ai-refactor-suggestions
-          path: refactored.md
