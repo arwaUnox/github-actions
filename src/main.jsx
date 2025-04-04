@@ -1,5 +1,5 @@
-import ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux';
+// import ReactDOM from 'react-dom/client';
+// import { Provider } from 'react-redux';
 
 import { seedLocalDatabase } from '@/api/data/seed';
 import ThemeProvider from '@/components/ThemeProvider';
@@ -14,11 +14,11 @@ import './index.css';
 seedLocalDatabase();
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  // <ThemeProvider>
+  <ThemeProvider>
     <AuthenticationProvider>
       <Provider store={store}>
         <Router />
       </Provider>
-    {/* </AuthenticationProvider> */}
-  {/* </ThemeProvider>, */}
+    </AuthenticationProvider>
+   </ThemeProvider>,
 );

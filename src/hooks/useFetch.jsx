@@ -68,7 +68,7 @@ const useFetch = (url, options) => {
     });
   }, [data, storageKey]);
 
-  return { data, error, isLoading };
+  // return { data, error, isLoading };
 };
 
 //  export default useFetch;

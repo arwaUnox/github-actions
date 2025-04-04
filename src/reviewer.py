@@ -11,7 +11,7 @@ def main():
 
         patch = file.patch
         if patch:
-            review_prompt = f"Please review the following code diff and give suggestions:\n{patch}"
+            review_prompt = f"Please tell me if this code change would make the build of the project fail:\n{patch}"
             review_comment = generate_code_review(review_prompt)
 
             try:
