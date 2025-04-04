@@ -1,10 +1,10 @@
 import openai
 import os
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def generate_code_review(prompt):
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-4",
         messages=[
             {
@@ -19,4 +19,4 @@ def generate_code_review(prompt):
         temperature=0.5,
         max_tokens=500
     )
-    return response['choices'][0]['message']['content']
+    return response.choices[0].message.content
