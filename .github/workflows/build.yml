@@ -1,36 +1,61 @@
-name: AI Refactor Bot
+name: Qlty Code Quality Checks
 
 on:
   push:
-    branches: [main]
-  workflow_dispatch:
-
+    branches:
+      - main
+  
 permissions:
   contents: read
+  security-events: write
 
+  
 jobs:
-  refactor:
+
+
+  qlty-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Fetch all history for a full clone
+
+      - name: Install Qlty
+        run: |
+          curl -sSL https://qlty.sh | bash -
+          echo "$HOME/.qlty/bin" >> $GITHUB_PATH
+
+      - name: Run Qlty Check
+        run: |
+          qlty check || true
+          qlty fmt --all || true
+          qlty smells --all || true
+          qlty metrics --all  || true
+
+  semgrep:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📦 Checkout code
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: 🐍 Set up Python
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
-      - name: 📥 Install dependencies
-        run: pip install openai
+      - name: Install Semgrep
+        run: pip install semgrep
 
-      - name: 🤖 Run AI Refactor (all JS files in /src)
-        run: python refactor.py
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      - name: Run Semgrep and save report
+        run: semgrep --config .semgrep/ --exclude semgrep-report.json --sarif > semgrep-results.sarif
 
-      - name: 📤 Upload refactored suggestions
-        uses: actions/upload-artifact@v4
+      # - name: Upload Semgrep report artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: semgrep-report
+      #     path: semgrep-report.json
+      - name: Upload SARIF to GitHub Security Dashboard
+        uses: github/codeql-action/upload-sarif@v3
         with:
-          name: ai-refactor-suggestions
-          path: refactor-output/
+          sarif_file: semgrep-results.sarif
