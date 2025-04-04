@@ -14,7 +14,7 @@ def generate_code_review(prompt):
     response = client.chat.completions.create(
         # model="gpt-3.5-turbo",
         # model="mistralai/Mixtral-8x7B-Instruct-v0.1",
-        model = 'gpt-4o'
+        model = 'gpt-4o',
         messages=[
             {
                 "role": "system",
