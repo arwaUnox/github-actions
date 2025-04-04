@@ -4,7 +4,7 @@ import os
 # client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Create the client instance with Together.ai's endpoint
-client = OpenAI(
+client = openai.OpenAI(
     api_key="b5f2f47668eba0617301fda1650c426327dbeed73a928ae36fe5f3e8c2ac3bd5",
     base_url="https://api.together.xyz/v1"
 )
