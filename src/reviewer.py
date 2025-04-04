@@ -1,5 +1,5 @@
-from github_utils import get_push_commit_files, post_commit_comment
-from llm_utils import generate_code_review
+from github-utils import get_push_commit_files, post_commit_comment
+from llm-utils import generate_code_review
 
 def main():
     files, repo, commit = get_push_commit_files()
