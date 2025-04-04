@@ -16,6 +16,7 @@ def main():
 
             try:
                 post_commit_comment(repo, sha, f"**Review for `{file.filename}`**\n\n{review_comment}")
+                print('ai comment is: ', review_comment)
             except Exception as e:
                 print(f"Failed to post comment for {file.filename}: {e}")
 
