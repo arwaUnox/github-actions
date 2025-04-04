@@ -14,11 +14,11 @@ import './index.css';
 seedLocalDatabase();
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <ThemeProvider>
+  // <ThemeProvider>
     <AuthenticationProvider>
       <Provider store={store}>
         <Router />
       </Provider>
-    </AuthenticationProvider>
-  </ThemeProvider>,
+    {/* </AuthenticationProvider> */}
+  {/* </ThemeProvider>, */}
 );

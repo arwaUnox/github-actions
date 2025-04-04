@@ -6,7 +6,7 @@ def main():
     sha = commit.sha
 
     for file in files:
-        if not file.filename.endswith((".py", ".ts", ".js", ".java")):
+        if not file.filename.endswith((".py", ".ts", ".js", '.jsx', ".java")):
             continue
 
         patch = file.patch
