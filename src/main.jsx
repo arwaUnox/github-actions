@@ -1,5 +1,5 @@
-// import ReactDOM from 'react-dom/client';
-// import { Provider } from 'react-redux';
+import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
 
 import { seedLocalDatabase } from '@/api/data/seed';
 import ThemeProvider from '@/components/ThemeProvider';

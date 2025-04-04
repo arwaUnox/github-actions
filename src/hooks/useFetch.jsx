@@ -1,4 +1,4 @@
-// import axios from 'axios';
+import axios from 'axios';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import api from '@/api';
@@ -68,7 +68,7 @@ const useFetch = (url, options) => {
     });
   }, [data, storageKey]);
 
-  // return { data, error, isLoading };
+  return { data, error, isLoading };
 };
 
-//  export default useFetch;
+ export default useFetch;
