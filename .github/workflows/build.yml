@@ -26,6 +26,8 @@ jobs:
         run: |
           curl -sSL https://qlty.sh | bash -
           echo "$HOME/.qlty/bin" >> $GITHUB_PATH
+          echo "$HOME/.qlty/bin" >> $GITHUB_ENV
+          # echo "$HOME/.qlty/bin" >> $GITHUB_PATH
 
       - name: Run Qlty Check
         env:
