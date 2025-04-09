@@ -51,7 +51,8 @@ test_patterns = [
   "**/test_*.*",
   "**/spec_*.*",
 ]
-
+[checks]
+mode = "comment"
 [smells]
 mode = "comment"
 
