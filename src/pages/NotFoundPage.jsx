@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 import { Button, Card } from '@/components/ui';
 
@@ -11,9 +11,9 @@ const NotFoundPage = () => {
           Unfortunately, the page that you're looking for does not exist.
         </p>
         <Button asChild>
-          <Link to='/' replace>
-            Back to Home
-          </Link>
+          {/* <Link to='/' replace> */}
+            Back to Homepage
+          {/* </Link> */}
         </Button>
       </Card>
     </div>
