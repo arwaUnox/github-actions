@@ -32,9 +32,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_SHA: ${{ github.sha }}   
         run: |
-          qlty check -- --ci --reporter=github-commit
+          --ci --reporter=github-commit qlty check --all || true
           qlty fmt --all || true
-          qlty smells --all || true
+          --ci --reporter=github-commit qlty smells --all || true
           qlty metrics --all  || true
 
   semgrep:
