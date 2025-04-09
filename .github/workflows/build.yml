@@ -26,18 +26,16 @@ jobs:
         run: |
           curl -sSL https://qlty.sh | bash -
           echo "$HOME/.qlty/bin" >> $GITHUB_PATH
-          echo "$HOME/.qlty/bin" >> $GITHUB_ENV
-          # echo "$HOME/.qlty/bin" >> $GITHUB_PATH
 
       - name: Run Qlty Check
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_SHA: ${{ github.sha }}   
         run: |
-          qlty --ci --reporter=github-commit check --all || true
+          qlty check || true
           qlty fmt --all || true
-          qlty --ci --reporter=github-commit smells --all || true
-          qlty metrics --all || true
+          qlty smells --all || true
+          qlty metrics --all  || true
 
   semgrep:
     runs-on: ubuntu-latest
