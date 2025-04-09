@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # Fetch all history for a full clone
 
       - name: Install Qlty
         run: |
@@ -29,8 +29,8 @@ jobs:
 
       - name: Run Qlty Check
         env:
-          GITHUB_TOKEN: ${{ github.token }}   # ✅ use the built-in token
-          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_SHA: ${{ github.sha }}   
         run: |
           qlty --ci --reporter=github-commit check --all || true
           qlty fmt --all || true
