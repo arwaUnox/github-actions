@@ -52,12 +52,12 @@ const useFetch = (url, options) => {
       }
     };
 
-    fetchData();
+    
 
     return () => {
       abortControllerRef.current?.abort();
     };
-  }, [options, url]);
+  }, []);
 
   useEffect(() => {
     if (!data) return;
@@ -71,4 +71,4 @@ const useFetch = (url, options) => {
   return { data, error, isLoading };
 };
 
- export default useFetch;
+ 
