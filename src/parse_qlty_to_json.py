@@ -1,43 +1,44 @@
 import json
+import re
 
 with open("qlty-output.txt", "r", encoding="utf-8") as f:
     lines = f.readlines()
 
 issues = []
 current = None
-collecting = False
+collecting_code = False
 
-for line in lines:
+for i, line in enumerate(lines):
     raw = line.rstrip("\n")
-    line = raw.strip()
+    stripped = raw.strip()
 
-    # Start of a new file block
-    if line.endswith((".jsx", ".js", ".ts", ".tsx")):
+    # Detect filename line
+    if re.match(r"^src/.*\.(jsx|js|ts|tsx)$", stripped):
         if current:
             issues.append(current)
-        current = {"file": line, "details": ""}
-        collecting = False
+        current = {"file": stripped, "details": ""}
+        collecting_code = False
 
-    # Start of a code smell block
-    elif any(line.startswith(prefix) for prefix in ["Function with", "Found", "Detected", "Smell", "Issue"]) or "also found at" in line:
+    # Detect code smell description
+    elif stripped.startswith("Function with") or stripped.startswith("Found") or "also found at" in stripped:
         if current:
-            current["details"] += line + "\n"
-            collecting = True
+            current["details"] += stripped + "\n"
+            collecting_code = True
 
-    # Collect indented lines (code) after the smell
-    elif collecting and (raw.startswith(" ") or raw.startswith("\t")):
+    # Capture indented lines (likely code)
+    elif collecting_code and re.match(r"^\s{2,}\d+\s", raw):  # lines that start with indentation + line number
         if current:
             current["details"] += raw + "\n"
 
-    # Stop collecting if we hit an empty or unrelated line
-    elif collecting and line == "":
-        collecting = False
+    # Stop collecting code block when we hit a blank or unrelated line
+    elif collecting_code and stripped == "":
+        collecting_code = False
 
-# Don't forget the last one
+# Capture the last block
 if current:
     issues.append(current)
 
-# Format issues for GitHub
+# Build GitHub-friendly issue JSON
 issue_output = []
 for i in issues:
     body = f"**File**: `{i['file']}`\n\n```js\n{i['details'].strip()}\n```"
