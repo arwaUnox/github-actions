@@ -43,18 +43,33 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh label list | grep -q "code-quality" || gh label create "code-quality" --color "#006b75" --description "Code Quality Issues"
-
-
-      - name: Create GitHub Issue from Output
+    
+      - name: Create GitHub Issues from JSON
         env:
-            GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}} 
+          GH_TOKEN: ${{ github.token }}
         run: |
-          if grep -q "Found" clean-output.json; then
+          jq -c '.[]' qlty-issues.json | while read issue; do
+            title=$(echo "$issue" | jq -r '.title')
+            body=$(echo "$issue" | jq -r '.body')
+            labels=$(echo "$issue" | jq -r '.labels | join(",")')
+            
+            echo "Creating issue: $title"
             gh issue create \
-              --title "Qlty Code Smells Detected" \
-              --body "$(cat clean-output.json)" \
-              --label "code-quality"
-          fi
+              --title "$title" \
+              --body "$body" \
+              --label "$labels"
+          done
+
+      # - name: Create GitHub Issue from Output
+      #   env:
+      #       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}} 
+      #   run: |
+      #     if grep -q "Found" clean-output.json; then
+      #       gh issue create \
+      #         --title "Qlty Code Smells Detected" \
+      #         --body "$(cat clean-output.json)" \
+      #         --label "code-quality"
+      #     fi
   # semgrep:
   #   runs-on: ubuntu-latest
 
