@@ -48,7 +48,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          jq -c '.[]' qlty-issues.json | while read issue; do
+          jq -c '.[]' clean-output.json | while read issue; do
             title=$(echo "$issue" | jq -r '.title')
             body=$(echo "$issue" | jq -r '.body')
             labels=$(echo "$issue" | jq -r '.labels | join(",")')
