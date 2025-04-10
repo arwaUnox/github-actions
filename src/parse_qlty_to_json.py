@@ -6,39 +6,49 @@ with open("qlty-output.txt", "r", encoding="utf-8") as f:
 
 issues = []
 current = None
-collecting_code = False
+collecting = False
 
-for i, line in enumerate(lines):
+def is_filename(line):
+    return re.match(r"^src/.*\.(jsx|js|ts|tsx)$", line)
+
+def is_smell_start(line):
+    return line.startswith("Function with") or line.startswith("Found") or "also found at" in line
+
+def is_code_line(line):
+    return re.match(r"^\s+\d+\s", line) or line.strip().startswith("</") or line.strip().startswith("<")
+
+for line in lines:
     raw = line.rstrip("\n")
     stripped = raw.strip()
 
-    # Detect filename line
-    if re.match(r"^src/.*\.(jsx|js|ts|tsx)$", stripped):
+    if is_filename(stripped):
         if current:
             issues.append(current)
         current = {"file": stripped, "details": ""}
-        collecting_code = False
+        collecting = False
 
-    # Detect code smell description
-    elif stripped.startswith("Function with") or stripped.startswith("Found") or "also found at" in stripped:
+    elif is_smell_start(stripped):
         if current:
             current["details"] += stripped + "\n"
-            collecting_code = True
+        collecting = True
 
-    # Capture indented lines (likely code)
-    elif collecting_code and re.match(r"^\s{2,}\d+\s", raw):  # lines that start with indentation + line number
+    elif collecting and (is_code_line(raw) or raw.startswith("    ") or raw.startswith("  ")):
         if current:
             current["details"] += raw + "\n"
 
-    # Stop collecting code block when we hit a blank or unrelated line
-    elif collecting_code and stripped == "":
-        collecting_code = False
+    elif collecting and stripped == "":
+        # allow blank lines in block
+        current["details"] += "\n"
 
-# Capture the last block
+    elif collecting and not raw.startswith(" "):
+        # stop if we hit an unindented line (likely a new section)
+        collecting = False
+
+# Capture last one
 if current:
     issues.append(current)
 
-# Build GitHub-friendly issue JSON
+# Create final JSON
 issue_output = []
 for i in issues:
     body = f"**File**: `{i['file']}`\n\n```js\n{i['details'].strip()}\n```"
@@ -51,9 +61,6 @@ for i in issues:
 with open("clean-output.json", "w", encoding="utf-8") as f:
     json.dump(issue_output, f, indent=2, ensure_ascii=False)
 
-
-# Print to CI console
 print("\n📦 GitHub Issues to Create:\n")
 print(json.dumps(issue_output, indent=2, ensure_ascii=False))
-
-print(f"✅ Extracted {len(issue_output)} issues to clean-output.json")
+print(f"\n✅ Extracted {len(issue_output)} issues to clean-output.json")
