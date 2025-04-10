@@ -50,6 +50,6 @@ for i in issues:
 
 with open("clean-output.json", "w", encoding="utf-8") as f:
     json.dump(issue_output, f, indent=2, ensure_ascii=False)
-    print( json.dump(issue_output, f, indent=2, ensure_ascii=False))
+print( json.dump(issue_output, f, indent=2, ensure_ascii=False))
 
 print(f"✅ Extracted {len(issue_output)} issues to clean-output.json")
