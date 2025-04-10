@@ -40,7 +40,7 @@ jobs:
           # qlty metrics --all  || true
       - name: Parse Qlty Output to JSON
         run: |
-          python parse_qlty_to_json.py qlty-output.txt clean-output.json
+          python src/parse_qlty_to_json.py qlty-output.txt clean-output.json
       - name: Ensure 'code-quality' label exists
         env:
           GH_TOKEN: ${{ github.token }}
