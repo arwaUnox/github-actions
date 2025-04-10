@@ -33,7 +33,7 @@ jobs:
           NO_COLOR: true
 
         run: |
-           qlty smells --all | sed 's/\x1B\[[0-9;]*[mK]//g' > clean-output.txt || true
+           qlty smells --all | sed 's/\x1B\[[0-9;]*[mK]//g' > clean-output.json || true
           # qlty check || true
           # qlty fmt --all || true
           # qlty smells --all || true
@@ -52,7 +52,7 @@ jobs:
           if grep -q "Found" qlty-output.txt; then
             gh issue create \
               --title "Qlty Code Smells Detected" \
-              --body "$(cat clean-output.txt)" \
+              --body "$(cat clean-output.json)" \
               --label "code-quality"
           fi
   # semgrep:
