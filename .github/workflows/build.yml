@@ -28,6 +28,9 @@ jobs:
           echo "$HOME/.qlty/bin" >> $GITHUB_PATH
 
       - name: Run Qlty Check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NO_COLOR: true
 
         run: |
            qlty smells --all > qlty-output.txt || true
