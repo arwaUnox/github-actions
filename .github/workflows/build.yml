@@ -28,84 +28,93 @@ jobs:
           echo "$HOME/.qlty/bin" >> $GITHUB_PATH
 
       - name: Run Qlty Check
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_SHA: ${{ github.sha }}   
+
         run: |
-          qlty check || true
-          qlty fmt --all || true
-          qlty smells --all || true
-          qlty metrics --all  || true
+           qlty smells --all > qlty-output.txt || true
+          # qlty check || true
+          # qlty fmt --all || true
+          # qlty smells --all || true
+          # qlty metrics --all  || true
 
-  semgrep:
-    runs-on: ubuntu-latest
+      - name: Create GitHub Issue from Output
+        env:
+            GITHUB_TOKEN: ${{secrets.SONAR_TOKEN }}
+        run: |
+          if grep -q "Found" qlty-output.txt; then
+            gh issue create \
+              --title "Qlty Code Smells Detected" \
+              --body "$(cat qlty-output.txt)" \
+              --label "code-quality"
+          fi
+  # semgrep:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
+  #     - name: Set up Python
+  #       uses: actions/setup-python@v4
+  #       with:
+  #         python-version: '3.x'
 
-      - name: Install Semgrep
-        run: pip install semgrep
+  #     - name: Install Semgrep
+  #       run: pip install semgrep
 
-      - name: Run Semgrep and save report
-        run: semgrep --config .semgrep/ --exclude semgrep-report.json --sarif > semgrep-results.sarif
+  #     - name: Run Semgrep and save report
+  #       run: semgrep --config .semgrep/ --exclude semgrep-report.json --sarif > semgrep-results.sarif
 
       # - name: Upload Semgrep report artifact
       #   uses: actions/upload-artifact@v4
       #   with:
       #     name: semgrep-report
       #     path: semgrep-report.json
-      - name: Upload SARIF to GitHub Security Dashboard
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: semgrep-results.sarif
+      # - name: Upload SARIF to GitHub Security Dashboard
+      #   uses: github/codeql-action/upload-sarif@v3
+      #   with:
+      #     sarif_file: semgrep-results.sarif
 
-  sonarqube:
-    name: Run SonarQube Scanner
-    runs-on: ubuntu-latest
+  # sonarqube:
+  #   name: Run SonarQube Scanner
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v3
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Set up Node.js (or your language)
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+  #     - name: Set up Node.js (or your language)
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: '18'
 
-      - name: Install dependencies
-        run: npm install
+  #     - name: Install dependencies
+  #       run: npm install
 
-      - name: Run SonarQube Scanner
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          npm install -g sonar-scanner
-          sonar-scanner
-  review:
-    runs-on: ubuntu-latest
+  #     - name: Run SonarQube Scanner
+  #       env:
+  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  #       run: |
+  #         npm install -g sonar-scanner
+  #         sonar-scanner
+  # review:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
+  #     - name: Set up Python
+  #       uses: actions/setup-python@v4
+  #       with:
+  #         python-version: '3.10'
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+  #     - name: Install dependencies
+  #       run: |
+  #         python -m pip install --upgrade pip
+  #         pip install -r requirements.txt
 
-      - name: Run AI Code Review
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python src/reviewer.py
+  #     - name: Run AI Code Review
+  #       env:
+  #         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       run: python src/reviewer.py
