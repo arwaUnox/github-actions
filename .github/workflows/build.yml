@@ -38,7 +38,7 @@ jobs:
 
       - name: Create GitHub Issue from Output
         env:
-            GITHUB_TOKEN: ${{secrets.SONAR_TOKEN }}
+            GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}} 
         run: |
           if grep -q "Found" qlty-output.txt; then
             gh issue create \
