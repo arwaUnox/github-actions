@@ -33,7 +33,8 @@ jobs:
           NO_COLOR: true
 
         run: |
-         qlty check --all -- --ci --reporter=github-commit  || true
+         qlty check --ci --reporter=github-commit --all || true
+
         #Start this code is to create qlty output file so it would be parsed and exported as github issues
           #  qlty smells --all | sed 's/\x1B\[[0-9;]*[mK]//g' > qlty-output.txt || true
 
