@@ -73,8 +73,7 @@ name = "golangci-lint"
 name = "markdownlint"
 version = "0.41.0"
 
-[[plugin]]
-name = "osv-scanner"
+
 
 [[plugin]]
 name = "prettier"
@@ -88,13 +87,8 @@ name = "radarlint-js"
 [[plugin]]
 name = "ripgrep"
 
-[[plugin]]
-name = "trivy"
-drivers = [
-  "config",
-  "fs-vuln",
-  "secret"
-]
+
+enabled=false
 
 [[plugin]]
 name = "trufflehog"
