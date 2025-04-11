@@ -1,11 +1,11 @@
-import { isListingAvailable } from './data/listings';
-import { getDatabaseTable, setDatabaseTable } from './helpers';
+import { isListingAvailable } from "./data/listings";
+import { getDatabaseTable, setDatabaseTable } from "./helpers";
 
 // Gets listing by id
 export const getListingById = (id) => {
-  const listings = getDatabaseTable('listings');
+  const listings = getDatabaseTable("listings");
   if (!listings) {
-    console.log('No listings table found');
+    console.log("No listings table found");
     return;
   }
 
@@ -17,9 +17,9 @@ export const getListings = (params = {}) => {
   const { dates, guests, search } = params;
 
   // Gets the listings table
-  const listings = getDatabaseTable('listings');
+  const listings = getDatabaseTable("listings");
   if (!listings) {
-    console.log('No listings table found');
+    console.log("No listings table found");
     return;
   }
 
@@ -52,9 +52,9 @@ export const getListings = (params = {}) => {
 
 // Creates a listing
 export const createListing = (data) => {
-  const listings = getDatabaseTable('listings');
+  const listings = getDatabaseTable("listings");
   if (!listings) {
-    console.log('No listings table found');
+    console.log("No listings table found");
     return;
   }
 
@@ -68,7 +68,7 @@ export const createListing = (data) => {
 
   listings.push(newListing);
 
-  setDatabaseTable('listings', listings);
+  setDatabaseTable("listings", listings);
 
   return newListing;
 };

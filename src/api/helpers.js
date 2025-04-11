@@ -1,9 +1,9 @@
-import * as jose from 'jose';
+import * as jose from "jose";
 
-import { env } from '@/lib/env';
-import { getItem, setItem } from '@/lib/utils/localStorage';
+import { env } from "@/lib/env";
+import { getItem, setItem } from "@/lib/utils/localStorage";
 
-const JWT_SECRET_KEY = 'cosdensolutions';
+const JWT_SECRET_KEY = "cosdensolutions";
 const jwtSecret = new TextEncoder().encode(JWT_SECRET_KEY);
 
 // Waits for a given number of milliseconds
@@ -28,18 +28,18 @@ export const cleanUser = (user) => {
 export const withAuth =
   (...data) =>
   async (config) => {
-    const token = config.headers.Authorization?.split(' ')[1];
+    const token = config.headers.Authorization?.split(" ")[1];
 
     // Verifies access token if present
     const verified = token ? await verifyToken(token) : false;
 
     // Returns 403 if token is invalid and auth is enabled
     if (env.USE_AUTH && !verified) {
-      return [401, { message: 'Unauthorized' }];
+      return [401, { message: "Unauthorized" }];
     }
 
     // Calls the original mock function
-    return typeof data[0] === 'function' ? data[0](config) : data;
+    return typeof data[0] === "function" ? data[0](config) : data;
   };
 
 // Verifies a JWT token
@@ -55,15 +55,15 @@ export const verifyToken = async (token, options = undefined) => {
 // Generates a refresh token with a 30 day expiration
 export const generateRefreshToken = async (data) => {
   return await new jose.SignJWT({ data })
-    .setProtectedHeader({ alg: 'HS256' })
-    .setExpirationTime('30d')
+    .setProtectedHeader({ alg: "HS256" })
+    .setExpirationTime("30d")
     .sign(jwtSecret);
 };
 
 // Generates an access token with a 15 minute expiration
 export const generateAccessToken = async (data) => {
   return await new jose.SignJWT({ data })
-    .setProtectedHeader({ alg: 'HS256' })
-    .setExpirationTime('15m')
+    .setProtectedHeader({ alg: "HS256" })
+    .setExpirationTime("15m")
     .sign(jwtSecret);
 };

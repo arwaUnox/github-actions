@@ -1,4 +1,4 @@
-import * as z from 'zod';
+import * as z from "zod";
 
 const envSchema = z.object({
   BASE_URL: z.string().url(),
@@ -6,7 +6,7 @@ const envSchema = z.object({
   COSDEN_SOLUTIONS_URL: z.string().url(),
   DB_KEY: z.string(),
   DISCORD_URL: z.string().url(),
-  USE_AUTH: z.string().transform((value) => value === 'true'),
+  USE_AUTH: z.string().transform((value) => value === "true"),
 });
 
 export const env = envSchema.parse({

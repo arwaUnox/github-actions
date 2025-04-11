@@ -1,9 +1,9 @@
-import { getDatabaseTable } from './helpers';
+import { getDatabaseTable } from "./helpers";
 
 export const getLocationById = (id) => {
-  const locations = getDatabaseTable('locations');
+  const locations = getDatabaseTable("locations");
   if (!locations) {
-    console.log('No locations table found');
+    console.log("No locations table found");
     return;
   }
 

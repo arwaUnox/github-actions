@@ -1,4 +1,4 @@
-import { subDays } from 'date-fns';
+import { subDays } from "date-fns";
 
 export const createReview = (review) => {
   const { id, userId, listingId, rating, comment, createdAt } = review;
@@ -32,7 +32,7 @@ export const reviews = [
     listingId: 2,
     rating: 4,
     comment:
-      'Charming studio in a great location. Perfect for exploring Paris. The only small issue was some street noise at night, but overall a wonderful experience.',
+      "Charming studio in a great location. Perfect for exploring Paris. The only small issue was some street noise at night, but overall a wonderful experience.",
     createdAt: subDays(today, 10),
   }),
   createReview({
@@ -50,7 +50,7 @@ export const reviews = [
     listingId: 4,
     rating: 4,
     comment:
-      'The stylish loft in Paris was a great base for our city adventure. Modern, clean, and with all necessary amenities. The host was very responsive and helpful.',
+      "The stylish loft in Paris was a great base for our city adventure. Modern, clean, and with all necessary amenities. The host was very responsive and helpful.",
     createdAt: subDays(today, 20),
   }),
   createReview({
@@ -59,7 +59,7 @@ export const reviews = [
     listingId: 1,
     rating: 5,
     comment:
-      'We loved our stay at this modern apartment in London. The views were amazing, and the location was perfect for sightseeing. Would definitely stay here again!',
+      "We loved our stay at this modern apartment in London. The views were amazing, and the location was perfect for sightseeing. Would definitely stay here again!",
     createdAt: subDays(today, 25),
   }),
   createReview({
@@ -122,7 +122,7 @@ export const reviews = [
     listingId: 2,
     rating: 4,
     comment:
-      'The stylish loft in Paris offered a great experience. The industrial chic decor was very cool, and the location was convenient for exploring the city. Minor issue with Wi-Fi, but otherwise excellent.',
+      "The stylish loft in Paris offered a great experience. The industrial chic decor was very cool, and the location was convenient for exploring the city. Minor issue with Wi-Fi, but otherwise excellent.",
     createdAt: subDays(today, 60),
   }),
 ];

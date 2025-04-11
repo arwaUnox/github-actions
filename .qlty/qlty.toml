@@ -93,6 +93,7 @@ name = "trivy"
 drivers = [
   "config",
   "fs-vuln",
+  "secret"
 ]
 
 [[plugin]]
@@ -100,3 +101,16 @@ name = "trufflehog"
 
 [[plugin]]
 name = "yamllint"
+
+[[plugin]]
+name = "semgrep"
+
+[[plugin]]
+name = "vale"
+enabled=false
+
+[[plugin]]
+name = "prisma"
+
+[[plugin]]
+name = "eslint"

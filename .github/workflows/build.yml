@@ -4,23 +4,20 @@ on:
   push:
     branches:
       - main
-  
+
 permissions:
   contents: read
   security-events: write
   issues: write
-  pull-requests: write 
+  pull-requests: write
 
-  
 jobs:
-
-
   qlty-check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Fetch all history for a full clone
+          fetch-depth: 0 # Fetch all history for a full clone
 
       - name: Install Qlty
         run: |
@@ -33,16 +30,16 @@ jobs:
           NO_COLOR: true
 
         run: |
-         qlty check --ci --reporter=github-commit --all || true
+          qlty check --all || true
 
         #Start this code is to create qlty output file so it would be parsed and exported as github issues
-          #  qlty smells --all | sed 's/\x1B\[[0-9;]*[mK]//g' > qlty-output.txt || true
+        #  qlty smells --all | sed 's/\x1B\[[0-9;]*[mK]//g' > qlty-output.txt || true
 
         # End
-          # qlty check || true
-          # qlty fmt --all || true
-          # qlty smells --all || true
-          # qlty metrics --all  || true
+        # qlty check || true
+        # qlty fmt --all || true
+        # qlty smells --all || true
+        # qlty metrics --all  || true
       # - name: Parse Qlty Output to JSON
       #   run: |
       #     python src/parse_qlty_to_json.py qlty-output.txt clean-output.json
@@ -51,7 +48,7 @@ jobs:
       #     GH_TOKEN: ${{ github.token }}
       #   run: |
       #     gh label list | grep -q "code-quality" || gh label create "code-quality" --color "#006b75" --description "Code Quality Issues"
-    
+
       # - name: Create GitHub Issues from JSON
       #   env:
       #     GH_TOKEN: ${{ github.token }}
@@ -60,7 +57,7 @@ jobs:
       #       title=$(echo "$issue" | jq -r '.title')
       #       body=$(echo "$issue" | jq -r '.body')
       #       labels=$(echo "$issue" | jq -r '.labels | join(",")')
-            
+
       #       echo "Creating issue: $title"
       #       gh issue create \
       #         --title "$title" \
@@ -70,7 +67,7 @@ jobs:
 
       # - name: Create GitHub Issue from Output
       #   env:
-      #       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}} 
+      #       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       #   run: |
       #     if grep -q "Found" clean-output.json; then
       #       gh issue create \
@@ -96,15 +93,15 @@ jobs:
   #     - name: Run Semgrep and save report
   #       run: semgrep --config .semgrep/ --exclude semgrep-report.json --sarif > semgrep-results.sarif
 
-      # - name: Upload Semgrep report artifact
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: semgrep-report
-      #     path: semgrep-report.json
-      # - name: Upload SARIF to GitHub Security Dashboard
-      #   uses: github/codeql-action/upload-sarif@v3
-      #   with:
-      #     sarif_file: semgrep-results.sarif
+  # - name: Upload Semgrep report artifact
+  #   uses: actions/upload-artifact@v4
+  #   with:
+  #     name: semgrep-report
+  #     path: semgrep-report.json
+  # - name: Upload SARIF to GitHub Security Dashboard
+  #   uses: github/codeql-action/upload-sarif@v3
+  #   with:
+  #     sarif_file: semgrep-results.sarif
 
   # sonarqube:
   #   name: Run SonarQube Scanner

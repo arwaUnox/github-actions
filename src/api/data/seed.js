@@ -1,10 +1,10 @@
-import { env } from '@/lib/env';
-import { getItem, setItem } from '@/lib/utils/localStorage';
+import { env } from "@/lib/env";
+import { getItem, setItem } from "@/lib/utils/localStorage";
 
-import { listings } from './listings';
-import { locations } from './locations';
-import { reviews } from './reviews';
-import { users } from './users';
+import { listings } from "./listings";
+import { locations } from "./locations";
+import { reviews } from "./reviews";
+import { users } from "./users";
 
 // Add all data to localstorage to simulate database
 export const seedLocalDatabase = () => {

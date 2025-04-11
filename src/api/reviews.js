@@ -1,9 +1,9 @@
-import { getDatabaseTable } from './helpers';
+import { getDatabaseTable } from "./helpers";
 
 export const getReviewsByListingId = (listingId) => {
-  const reviews = getDatabaseTable('reviews');
+  const reviews = getDatabaseTable("reviews");
   if (!reviews) {
-    console.log('No reviews table found');
+    console.log("No reviews table found");
     return [];
   }
 

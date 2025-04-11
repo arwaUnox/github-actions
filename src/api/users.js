@@ -1,9 +1,9 @@
-import { getDatabaseTable } from './helpers';
+import { getDatabaseTable } from "./helpers";
 
 export const getUserById = (id) => {
-  const users = getDatabaseTable('users');
+  const users = getDatabaseTable("users");
   if (!users) {
-    console.log('No users table found');
+    console.log("No users table found");
     return;
   }
 
@@ -13,9 +13,9 @@ export const getUserById = (id) => {
 export const getUser = (data) => {
   const { email, password } = data;
 
-  const users = getDatabaseTable('users');
+  const users = getDatabaseTable("users");
   if (!users) {
-    console.log('No users table found');
+    console.log("No users table found");
     return;
   }
 

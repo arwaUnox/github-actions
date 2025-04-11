@@ -13,12 +13,12 @@ export const createLocation = (location) => {
 export const locations = [
   createLocation({
     id: 1,
-    name: 'London',
-    country: 'United Kingdom',
+    name: "London",
+    country: "United Kingdom",
   }),
   createLocation({
     id: 2,
-    name: 'Paris',
-    country: 'France',
+    name: "Paris",
+    country: "France",
   }),
 ];
