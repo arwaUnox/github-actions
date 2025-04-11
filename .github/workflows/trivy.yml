@@ -1,4 +1,4 @@
-name: build
+name: trivy veulnerability scanner
 on:
   push:
     branches:
@@ -27,3 +27,17 @@ jobs:
         output: 'trivy-results.sarif'
         severity: 'CRITICAL'
         skip-setup-trivy: true
+
+
+    - name: Upload Trivy report artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: trivy-report
+        path: trivy-results.sarif
+
+    - name: Upload SARIF to GitHub Security Dashboard
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: trivy-results.sarif
+        
+    
