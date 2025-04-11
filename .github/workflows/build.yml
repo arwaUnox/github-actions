@@ -33,35 +33,39 @@ jobs:
           NO_COLOR: true
 
         run: |
-           qlty smells --all | sed 's/\x1B\[[0-9;]*[mK]//g' > qlty-output.txt || true
+          qlty --ci --reporter=github-commit check --all
+        #Start this code is to create qlty output file so it would be parsed and exported as github issues
+          #  qlty smells --all | sed 's/\x1B\[[0-9;]*[mK]//g' > qlty-output.txt || true
+
+        # End
           # qlty check || true
           # qlty fmt --all || true
           # qlty smells --all || true
           # qlty metrics --all  || true
-      - name: Parse Qlty Output to JSON
-        run: |
-          python src/parse_qlty_to_json.py qlty-output.txt clean-output.json
-      - name: Ensure 'code-quality' label exists
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh label list | grep -q "code-quality" || gh label create "code-quality" --color "#006b75" --description "Code Quality Issues"
+      # - name: Parse Qlty Output to JSON
+      #   run: |
+      #     python src/parse_qlty_to_json.py qlty-output.txt clean-output.json
+      # - name: Ensure 'code-quality' label exists
+      #   env:
+      #     GH_TOKEN: ${{ github.token }}
+      #   run: |
+      #     gh label list | grep -q "code-quality" || gh label create "code-quality" --color "#006b75" --description "Code Quality Issues"
     
-      - name: Create GitHub Issues from JSON
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          jq -c '.[]'  clean-output.json  | while read issue; do
-            title=$(echo "$issue" | jq -r '.title')
-            body=$(echo "$issue" | jq -r '.body')
-            labels=$(echo "$issue" | jq -r '.labels | join(",")')
+      # - name: Create GitHub Issues from JSON
+      #   env:
+      #     GH_TOKEN: ${{ github.token }}
+      #   run: |
+      #     jq -c '.[]'  clean-output.json  | while read issue; do
+      #       title=$(echo "$issue" | jq -r '.title')
+      #       body=$(echo "$issue" | jq -r '.body')
+      #       labels=$(echo "$issue" | jq -r '.labels | join(",")')
             
-            echo "Creating issue: $title"
-            gh issue create \
-              --title "$title" \
-              --body "$body" \
-              --label "$labels"
-          done
+      #       echo "Creating issue: $title"
+      #       gh issue create \
+      #         --title "$title" \
+      #         --body "$body" \
+      #         --label "$labels"
+      #     done
 
       # - name: Create GitHub Issue from Output
       #   env:
